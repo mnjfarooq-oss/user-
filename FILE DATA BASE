@@ -1,0 +1,74 @@
+
+#include <stdio.h>
+
+struct Student {
+    int rollno;
+    char name[50];
+    float marks;
+};
+
+int main() {
+    struct Student s;
+    FILE *fp;
+    int choice;
+
+    while (1) {
+        printf("\n1. Add Student");
+        printf("\n2. Display Students");
+        printf("\n3. Exit");
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+
+        case 1:
+            fp = fopen("student.txt", "a");
+
+            printf("Enter Roll Number: ");
+            scanf("%d", &s.rollno);
+
+            printf("Enter Name: ");
+            scanf(" %[^\n]", s.name);
+
+            printf("Enter Marks: ");
+            scanf("%f", &s.marks);
+
+            fprintf(fp, "%d %s %.2f\n",
+                    s.rollno, s.name, s.marks);
+
+            fclose(fp);
+
+            printf("Student added successfully!\n");
+            break;
+
+        case 2:
+            fp = fopen("student.txt", "r");
+
+            if (fp == NULL) {
+                printf("No student records found!\n");
+                break;
+            }
+
+            printf("\n--- Student Database ---\n");
+
+            while (fscanf(fp, "%d %49s %f",
+                   &s.rollno, s.name, &s.marks) == 3) {
+
+                printf("\nRoll Number: %d", s.rollno);
+                printf("\nName: %s", s.name);
+                printf("\nMarks: %.2f\n", s.marks);
+            }
+
+            fclose(fp);
+            break;
+
+        case 3:
+            return 0;
+
+        default:
+            printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
